@@ -1,3 +1,4 @@
+import * as React from "react";
 import type { MetaFunction } from "@remix-run/cloudflare";
 import {
   Links,
