@@ -22,13 +22,17 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader() {
-  // 这里应该从实际的存储中获取主题设置
   const theme = "default"; // 或 'dark' 或 'light'
   return json({ theme });
 }
 
 export default function App() {
   const { theme } = useLoaderData<typeof loader>();
+
+  React.useEffect(() => {
+    console.log("App component mounted");
+    document.documentElement.lang = "zh-CN";
+  }, []);
 
   return (
     <html lang="zh-CN" className={`h-full ${theme === 'dark' ? 'theme-dark' : theme === 'light' ? 'theme-light' : ''}`}>
