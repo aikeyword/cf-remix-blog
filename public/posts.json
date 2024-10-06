@@ -1,26 +1,37 @@
 [
-  {
-    "slug": "hello-world",
-    "title": "你好,世界!",
-    "content": "# 欢迎来到我的博客\n\n这是我的第一篇博客文章。我很高兴能与大家分享我的想法和经验。\n\n## 为什么我开始写博客\n\n写博客可以帮助我整理思路,同时也能与他人交流。我希望通过这个平台,能够:\n\n1. 分享我的学习心得\n2. 记录我的生活点滴\n3. 与志同道合的朋友交流\n\n感谢你的阅读,希望你能喜欢我的博客!",
-    "date": "2023-04-01",
-    "excerpt": "这是我的第一篇博客文章,介绍了我为什么开始写博客。",
-    "tags": ["博客", "介绍"]
-  },
-  {
-    "slug": "learning-remix",
-    "title": "学习 Remix 框架的心得",
-    "content": "# 学习 Remix 框架的心得\n\nRemix 是一个全栈 Web 框架,它有很多优秀的特性。在学习和使用 Remix 的过程中,我有以下几点心得:\n\n1. **数据加载**: Remix 的 loader 函数使得数据加载变得非常直观和高效。\n2. **表单处理**: action 函数简化了表单提交和处理的流程。\n3. **嵌套路由**: Remix 的嵌套路由设计非常灵活,可以轻松创建复杂的页面布局。\n4. **错误处理**: Remix 提供了优雅的错误处理机制,可以轻松捕获和显示错误。\n\n总的来说,Remix 是一个非常有前景的框架,值得深入学习和使用。",
-    "date": "2023-04-15",
-    "excerpt": "分享了我在学习和使用 Remix 框架过程中的一些心得体会。",
-    "tags": ["Remix", "Web开发", "学习笔记"]
-  },
-  {
-    "slug": "cloudflare-workers-experience",
-    "title": "使用 Cloudflare Workers 的经验分享",
-    "content": "# 使用 Cloudflare Workers 的经验分享\n\nCloudflare Workers 是一个强大的边缘计算平台,它可以让我们在全球范围内快速部署和运行代码。以下是我使用 Cloudflare Workers 的一些经验:\n\n1. **快速部署**: 使用 Wrangler CLI 工具,可以轻松地部署和更新 Workers。\n2. **全球分布**: Workers 在 Cloudflare 的全球网络上运行,可以大大减少延迟。\n3. **无服务器**: 不需要管理服务器,可以专注于编写业务逻辑。\n4. **集成服务**: 可以方便地使用 Cloudflare 的其他服务,如 KV 存储、Durable Objects 等。\n\n虽然 Cloudflare Workers 有一些限制,但对于许多应用场景来说,它是一个非常好的选择。",
-    "date": "2023-05-01",
-    "excerpt": "分享了我在使用 Cloudflare Workers 过程中的一些经验和心得。",
-    "tags": ["Cloudflare", "Workers", "边缘计算"]
-  }
+    {
+        "slug": "hello-world",
+        "title": "你好,世界!",
+        "content": "# 欢迎来到我的博客\n\n这是我的第一篇博客文章。我很高兴能与大家分享我的想法和经验。\n\n## 为什么我开始写博客\n\n写博客可以帮助我整理思路,同时也能与他人交流。我希望通过这个平台,能够:\n\n1. 分享我的学习心得\n2. 记录我的生活点滴\n3. 与志同道合的朋友交流\n\n感谢你的阅读,希望你能喜欢我的博客!",
+        "date": "2023-04-01",
+        "excerpt": "这是我的第一篇博客文章,介绍了我为什么开始写博客。",
+        "tags": [
+            "博客",
+            "Workers"
+        ]
+    },
+    {
+        "slug": "learning-remix",
+        "title": "学习 Remix 框架的心得",
+        "content": "# 学习 Remix 框架的心得\n\nRemix 是一个全栈 Web 框架,它有很多优秀的特性。在学习和使用 Remix 的过程中,我有以下几点心得:\n\n1. **数据加载**: Remix 的 loader 函数使得数据加载变得非常直观和高效。\n2. **表单处理**: action 函数简化了表单提交和处理的流程。\n3. **嵌套路由**: Remix 的嵌套路由设计非常灵活,可以轻松创建复杂的页面布局。\n4. **错误处理**: Remix 提供了优雅的错误处理机制,可以轻松捕获和显示错误。\n\n总的来说,Remix 是一个非常有前景的框架,值得深入学习和使用。",
+        "date": "2023-04-15",
+        "excerpt": "分享了我在学习和使用 Remix 框架过程中的一些心得体会。",
+        "tags": [
+            "Remix",
+            "Workers",
+            "学习笔记"
+        ]
+    },
+    {
+        "slug": "cloudflare-workers-experience",
+        "title": "使用 Cloudflare Workers 的经验分享",
+        "content": "# 使用 Cloudflare Workers 的经验分享\n\nCloudflare Workers 是一个强大的边缘计算平台,它可以让我们在全球范围内快速部署和运行代码。以下是我使用 Cloudflare Workers 的一些经验:\n\n1. **快速部署**: 使用 Wrangler CLI 工具,可以轻松地部署和更新 Workers。\n2. **全球分布**: Workers 在 Cloudflare 的全球网络上运行,可以大大减少延迟。\n3. **无服务器**: 不需要管理服务器,可以专注于编写业务逻辑。\n4. **集成服务**: 可以方便地使用 Cloudflare 的其他服务,如 KV 存储、Durable Objects 等。\n\n虽然 Cloudflare Workers 有一些限制,但对于许多应用场景来说,它是一个非常好的选择。",
+        "date": "2023-05-01",
+        "excerpt": "分享了我在使用 Cloudflare Workers 过程中的一些经验和心得。",
+        "tags": [
+            "Cloudflare",
+            "Workers",
+            "边缘计算"
+        ]
+    }
 ]
