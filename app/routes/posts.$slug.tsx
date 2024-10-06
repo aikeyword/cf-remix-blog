@@ -1,5 +1,5 @@
 import { json } from "@remix-run/cloudflare";
-import { useLoaderData, Link } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import type { MetaFunction, LoaderArgs } from "@remix-run/cloudflare";
 import { getPost } from "~/models/post.server";
 import invariant from "tiny-invariant";
@@ -20,8 +20,11 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export async function loader({ params }: LoaderArgs) {
-  invariant(params.slug, "Expected params.slug");
+  invariant(params.slug, "slug is required");
   const post = await getPost(params.slug);
+  if (!post) {
+    throw new Response("Not Found", { status: 404 });
+  }
   const html = marked(post.content);
   return json({ post, html });
 }
@@ -30,19 +33,18 @@ export default function PostSlug() {
   const { post, html } = useLoaderData<typeof loader>();
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
-      <p className="text-gray-500 dark:text-gray-400 mb-4">{post.date}</p>
-      <TagList tags={post.tags} />
-      <div 
-        className="prose dark:prose-invert max-w-none mt-8"
+    <article className="max-w-4xl mx-auto">
+      <header className="mb-8">
+        <h1 className="text-4xl font-bold mb-2">{post.title}</h1>
+        <div className="flex justify-between items-center text-gray-600 dark:text-gray-400">
+          <span>{post.date}</span>
+          <TagList tags={post.tags} />
+        </div>
+      </header>
+      <div
+        className="prose dark:prose-invert max-w-none"
         dangerouslySetInnerHTML={{ __html: html }}
       />
-      <div className="mt-8">
-        <Link to="/posts" className="text-blue-500 hover:underline">
-          ← 返回文章列表
-        </Link>
-      </div>
-    </div>
+    </article>
   );
 }
