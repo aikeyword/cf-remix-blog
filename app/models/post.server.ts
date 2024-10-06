@@ -14,7 +14,8 @@ let posts: Post[] | null = null;
 export async function getPosts(): Promise<Post[]> {
   if (posts) return posts;
 
-  const response = await fetch("/posts.json");
+  // const response = await fetch("/posts.json");
+  const response = await fetch("https://raw.githubusercontent.com/aigem/cf-remix-blog/refs/heads/master/public/posts.json");
   posts = await response.json();
   return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
