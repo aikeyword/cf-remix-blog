@@ -12,8 +12,12 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader() {
-  const posts = await getPosts();
-  return json({ posts });
+    const posts = await getPosts();
+    return json({ posts }, {
+        headers: {
+            "Content-Type": "application/json; charset=utf-8"
+        }
+    });
 }
 
 export default function Posts() {
