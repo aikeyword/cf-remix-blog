@@ -60,6 +60,8 @@
    ```
    5.2 通过 GitHub 部署到 Cloudflare Workers
    在 Cloudflare 的设置中绑定 GitHub 仓库，之后只需更新 GitHub 仓库中的文件即可自动部署到 Workers。非常方便。
+   新建的workers名称必须与wrangler.toml文件中的name一致，否则会部署失败。
+   
    视频教程：
 
 ## 自定义
