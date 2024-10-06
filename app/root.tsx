@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/cloudflare";
+import type { MetaFunction } from "@remix-run/cloudflare";
 import {
   Links,
   LiveReload,
@@ -6,10 +6,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
+import { json } from "@remix-run/cloudflare";
 import Navbar from "~/components/Navbar";
 
 import "./tailwind.css";
+import "./styles/themes.css";
 
 export const meta: MetaFunction = () => {
   return [
@@ -19,29 +22,31 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export const links: LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap",
-  },
-];
+export async function loader() {
+  // 这里应该从实际的存储中获取主题设置
+  const theme = "default"; // 或 'dark' 或 'light'
+  return json({ theme });
+}
 
 export default function App() {
+  const { theme } = useLoaderData<typeof loader>();
+
   return (
-    <html lang="zh-CN" className="h-full">
+    <html lang="zh-CN" className={`h-full ${theme === 'dark' ? 'theme-dark' : theme === 'light' ? 'theme-light' : ''}`}>
       <head>
         <Meta />
         <Links />
       </head>
-      <body className="h-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+      <body className="h-full font-sans">
         <Navbar />
-        <Outlet />
+        <main className="container mx-auto px-4 py-8">
+          <Outlet />
+        </main>
+        <footer className="py-4 mt-8">
+          <div className="container mx-auto px-4 text-center text-sm">
+            © {new Date().getFullYear()} 我的个人博客. 保留所有权利.
+          </div>
+        </footer>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

@@ -1,47 +1,120 @@
-# Welcome to Remix + Cloudflare!
+# 个人博客系统
 
-- 📖 [Remix docs](https://remix.run/docs)
-- 📖 [Remix Cloudflare docs](https://remix.run/guides/vite#cloudflare)
+这是一个基于 Remix 和 Cloudflare Workers 构建的现代化个人博客系统。
 
-## Development
+## 功能特点
 
-Run the dev server:
+- 响应式设计，支持移动端和桌面端
+- 深色模式支持
+- 文章标签系统
+- 管理界面用于设置博客基本信息
+- Markdown 支持
+- 优化的 SEO
+- 可自定义主题
+- 使用系统默认字体，无需额外加载
 
-```sh
-npm run dev
+## 技术栈
+
+- 前端框架: Remix
+- 部署平台: Cloudflare Workers
+- 样式: Tailwind CSS
+- 语言: TypeScript
+- 数据存储: JSON 文件 (可扩展到其他存储方式)
+- Markdown 渲染: marked 库
+- 博客数据: 使用可配置的 JSON 文件 URL
+- pnpm: 包管理工具
+
+## 快速开始
+
+1. 克隆仓库
+   ```sh
+   git clone https://github.com/yourusername/your-blog-repo.git
+   cd your-blog-repo
+   ```
+
+2. 安装依赖
+   ```sh
+   pnpm install
+   ```
+
+3. 运行开发服务器
+   ```sh
+   pnpm run dev
+   ```
+
+4. 构建生产版本
+   ```sh
+   pnpm run build
+   ```
+
+5. 部署
+   5.1 通过 wrangler cli 部署到 Cloudflare Workers
+   ```sh
+   pnpm run deploy
+   ```
+   5.2 通过 GitHub 部署到 Cloudflare Workers
+   在 Cloudflare 的设置中绑定 GitHub 仓库，之后只需更新 GitHub 仓库中的文件即可自动部署到 Workers。
+
+## 自定义
+
+### 博客文章
+
+编辑 `public/posts.json` 或在管理界面中配置的 JSON 文件 URL 来添加或修改博客文章。JSON 文件格式如下：
+
+```json
+[
+    {
+        "slug": "your-post-slug",
+        "title": "Your Post Title",
+        "content": "Your Post Content",
+        "date": "2024-01-01",
+        "excerpt": "Your Post Excerpt",
+        "tags": ["tag1", "tag2"]
+    }
+]
 ```
 
-To run Wrangler:
+- 修改 `app/components/Navbar.tsx` 来自定义导航栏
+- 编辑 `app/root.tsx` 来更改全局样式和布局
 
-```sh
-npm run build
-npm run start
-```
+### 管理界面
 
-## Typegen
+访问 `/blog_admin` 路由来设置博客的基本信息，包括：
 
-Generate types for your Cloudflare bindings in `wrangler.toml`:
+- 博客标题
+- 博客描述
+- 作者名称
+- 每页文章数
+- 文章 JSON 文件 URL
+- 主题选择
+- 管理员密码
 
-```sh
-npm run typegen
-```
+注意：首次访问时，默认密码为 "admin123"。请在首次登录后立即更改密码。
 
-You will need to rerun typegen whenever you make changes to `wrangler.toml`.
+- 以后完善：
+    - 增加博客信息管理功能
+    - 增加博客文章管理功能
+    - 增加博客标签管理功能
+    - 简单的账号密码登录
 
-## Deployment
+### 自定义主题
 
-First, build your app for production:
+1. 在 `app/styles/themes.css` 文件中定义新的主题变量。
+2. 在 `app/routes/blog_admin.tsx` 文件中的主题选择器中添加新的主题选项。
+3. 更新 `app/root.tsx` 文件以使用新的主题类。
 
-```sh
-npm run build
-```
+### 导航栏
 
-Then, deploy your app to Cloudflare Pages:
+修改 `app/components/Navbar.tsx` 来自定义导航栏。
 
-```sh
-npm run deploy
-```
+### 全局样式
 
-## Styling
+编辑 `app/root.tsx` 来更改全局样式和布局。
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
+## 贡献
+
+欢迎提交 Pull Requests 来改进这个项目。对于重大更改，请先开 issue 讨论您想要改变的内容。
+
+## 许可证
+
+MIT

@@ -2,14 +2,22 @@ import { Link } from "@remix-run/react";
 
 export default function Navbar() {
   return (
-    <nav className="bg-gray-800 text-white p-4">
-      <div className="max-w-4xl mx-auto flex justify-between items-center">
-        <Link to="/" className="text-xl font-bold">我的博客</Link>
-        <ul className="flex space-x-4">
-          <li><Link to="/" className="hover:text-gray-300">首页</Link></li>
-          <li><Link to="/posts" className="hover:text-gray-300">文章</Link></li>
-          <li><Link to="/about" className="hover:text-gray-300">关于</Link></li>
-        </ul>
+    <nav className="bg-white dark:bg-gray-800 shadow-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          <div className="flex">
+            <Link to="/" className="flex-shrink-0 flex items-center">
+              <span className="text-2xl font-bold text-gray-900 dark:text-white">我的博客</span>
+            </Link>
+          </div>
+          <div className="flex items-center">
+            <div className="hidden md:ml-6 md:flex md:space-x-8">
+              <Link to="/" className="text-gray-900 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">首页</Link>
+              <Link to="/posts" className="text-gray-900 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">文章</Link>
+              <Link to="/about" className="text-gray-900 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">关于</Link>
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
   );
