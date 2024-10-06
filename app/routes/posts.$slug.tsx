@@ -4,6 +4,7 @@ import type { MetaFunction, LoaderArgs } from "@remix-run/cloudflare";
 import { getPost } from "~/models/post.server";
 import invariant from "tiny-invariant";
 import { marked } from "marked";
+import TagList from "~/components/TagList";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) {
@@ -31,9 +32,10 @@ export default function PostSlug() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
-      <p className="text-gray-500 dark:text-gray-400 mb-8">{post.date}</p>
+      <p className="text-gray-500 dark:text-gray-400 mb-4">{post.date}</p>
+      <TagList tags={post.tags} />
       <div 
-        className="prose dark:prose-invert max-w-none"
+        className="prose dark:prose-invert max-w-none mt-8"
         dangerouslySetInnerHTML={{ __html: html }}
       />
       <div className="mt-8">

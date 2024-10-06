@@ -2,6 +2,7 @@ import { json } from "@remix-run/cloudflare";
 import { useLoaderData, Link } from "@remix-run/react";
 import type { MetaFunction } from "@remix-run/cloudflare";
 import { getPosts } from "~/models/post.server";
+import TagList from "~/components/TagList";
 
 export const meta: MetaFunction = () => {
   return [
@@ -27,7 +28,8 @@ export default function PostsIndex() {
             <Link to={post.slug} className="block hover:bg-gray-100 dark:hover:bg-gray-800 p-4 rounded">
               <h2 className="text-2xl font-bold mb-2">{post.title}</h2>
               <p className="text-gray-600 dark:text-gray-400 mb-2">{post.excerpt}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-500">{post.date}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-500 mb-2">{post.date}</p>
+              <TagList tags={post.tags} />
             </Link>
           </li>
         ))}
