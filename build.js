@@ -5,7 +5,7 @@ import toml from '@iarna/toml';
 const wranglerConfig = toml.parse(fs.readFileSync('./wrangler.toml', 'utf-8'));
 
 // 输出当前的 BLOG_SETTINGS
-console.log('Current BLOG_SETTINGS:', wranglerConfig.vars.BLOG_SETTINGS);
+console.log('Current BLOG_SETTINGS:', wranglerConfig.vars.blog_test);
 
 // 如果需要更新 BLOG_SETTINGS，可以在这里进行
 // wranglerConfig.vars.BLOG_SETTINGS = newSettings;
