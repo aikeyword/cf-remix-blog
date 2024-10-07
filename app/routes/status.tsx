@@ -3,7 +3,6 @@ import { useLoaderData } from "@remix-run/react";
 import { getPosts } from "~/models/post.server";
 import type { LoaderFunctionArgs } from "@remix-run/cloudflare";
 import type { BlogSettings } from "~/types/blog";
-import { defaultBlogSettings } from "~/config/defaultBlogSettings";
 import { getBlogSettings } from "~/utils/getBlogSettings";
 
 export async function loader({ context }: LoaderFunctionArgs) {
@@ -36,7 +35,7 @@ export default function Status() {
 
             <h2 className="text-2xl font-semibold mb-4">环境变量中的博客设置</h2>
             <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded overflow-auto mb-6">
-                {blogSettingsEnv}
+                {typeof blogSettingsEnv === 'string' ? blogSettingsEnv : JSON.stringify(blogSettingsEnv)}
             </pre>
 
             <h2 className="text-2xl font-semibold mb-4">统计信息</h2>

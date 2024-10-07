@@ -1,5 +1,4 @@
-import type { BlogSettings } from "~/types/blog";
-import { defaultBlogSettings } from "~/config/defaultBlogSettings";
+import { BlogSettings, defaultBlogSettings } from "~/types/blog";
 
 export function getBlogSettings(context: any): BlogSettings {
     let settings: BlogSettings;

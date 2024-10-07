@@ -16,7 +16,6 @@ import ScrollProgressBar from "~/components/ScrollProgressBar";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import type { BlogSettings } from "~/types/blog";
 import { getBlogSettings } from "~/utils/getBlogSettings";
-import { defaultBlogSettings } from "~/config/defaultBlogSettings";
 
 import "./tailwind.css";
 import "./styles/themes.css";
