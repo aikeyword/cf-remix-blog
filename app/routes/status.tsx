@@ -10,8 +10,11 @@ export async function loader({ context }: LoaderFunctionArgs) {
     const posts = await getPosts();
     const tags = [...new Set(posts.flatMap(post => post.tags))];
 
-    // 获取所有环境变量
-    const env = context.env;
+    // 获取环境变量
+    const env = {
+        BLOG_SETTINGS: context.env.BLOG_SETTINGS,
+        // 添加其他你想显示的环境变量
+    };
 
     return json({
         settings,

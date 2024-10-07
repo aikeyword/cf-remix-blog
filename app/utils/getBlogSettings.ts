@@ -2,7 +2,7 @@ import { BlogSettings, defaultBlogSettings } from "~/types/blog";
 
 export function getBlogSettings(context: any): BlogSettings {
     let settings: BlogSettings;
-    let rawSettings = context.BLOG_SETTINGS;
+    let rawSettings = context.env.BLOG_SETTINGS;
 
     try {
         if (typeof rawSettings === 'string') {
@@ -10,7 +10,7 @@ export function getBlogSettings(context: any): BlogSettings {
         } else if (typeof rawSettings === 'object' && rawSettings !== null) {
             settings = rawSettings;
         } else {
-            console.warn("BLOG_SETTINGS is not set or invalid, using default settings");
+            console.warn("BLOG_SETTINGS is not set in environment variables, using default settings");
             settings = defaultBlogSettings;
         }
     } catch (error) {
