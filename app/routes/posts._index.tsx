@@ -1,5 +1,5 @@
 import { json } from "@remix-run/cloudflare";
-import { useLoaderData, Link, useSearchParams, useTransition } from "@remix-run/react";
+import { useLoaderData, Link, useSearchParams, useNavigation } from "@remix-run/react";
 import type { MetaFunction, LoaderArgs } from "@remix-run/cloudflare";
 import { motion } from "framer-motion";
 import { getPosts } from "~/models/post.server";
@@ -29,12 +29,12 @@ export async function loader({ request }: LoaderArgs) {
 export default function Posts() {
     const { posts, page, totalPages } = useLoaderData<typeof loader>();
     const [searchParams] = useSearchParams();
-    const transition = useTransition();
+    const navigation = useNavigation();
 
     return (
         <div className="max-w-4xl mx-auto">
             <h1 className="text-3xl font-bold mb-8">所有文章</h1>
-            {transition.state === "loading" ? (
+            {navigation.state === "loading" ? (
                 <div className="text-center">加载中...</div>
             ) : (
                 <div className="space-y-8">
