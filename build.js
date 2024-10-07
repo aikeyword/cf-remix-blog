@@ -26,7 +26,7 @@ const wranglerConfig = toml.parse(fs.readFileSync('./wrangler.toml', 'utf-8'));
 
 // 更新 wrangler.toml 文件中的 BLOG_SETTINGS
 wranglerConfig.vars = wranglerConfig.vars || {};
-wranglerConfig.vars.BLOG_SETTINGS = JSON.stringify(defaultBlogSettings);
+wranglerConfig.vars.BLOG_SETTINGS = JSON.stringify(defaultBlogSettings).replace(/'/g, "\\'");
 
 // 将更新后的配置写回 wrangler.toml 文件
 fs.writeFileSync('./wrangler.toml', toml.stringify(wranglerConfig));
