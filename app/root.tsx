@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { MetaFunction } from "@remix-run/cloudflare";
+import type { MetaFunction, LinksFunction } from "@remix-run/cloudflare";
 import {
   Links,
   LiveReload,
@@ -8,10 +8,8 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
-  useLocation,
 } from "@remix-run/react";
 import { json } from "@remix-run/cloudflare";
-import { AnimatePresence, motion } from "framer-motion";
 import Navbar from "~/components/Navbar";
 import ThemeToggle from "~/components/ThemeToggle";
 import ScrollProgressBar from "~/components/ScrollProgressBar";
@@ -21,48 +19,78 @@ import { getBlogSettings } from '~/config/blog-config';
 import "./tailwind.css";
 import "./styles/themes.css";
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction = ({ data }) => {
+  const { settings } = data;
   return [
     { charset: "utf-8" },
     { name: "viewport", content: "width=device-width,initial-scale=1" },
     { "http-equiv": "Content-Type", content: "text/html; charset=utf-8" },
-    { name: "description", content: "我的个人博客 - 分享我的想法和经验" },
+    { name: "description", content: settings.description },
+    { name: "author", content: settings.author },
+    { property: "og:title", content: settings.title },
+    { property: "og:description", content: settings.description },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:creator", content: settings.author },
+    { name: "twitter:title", content: settings.title },
+    { name: "twitter:description", content: settings.description },
   ];
 };
 
+export const links: LinksFunction = () => [
+  { rel: "icon", href: "/favicon.ico" },
+  { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+  { rel: "manifest", href: "/site.webmanifest" },
+];
+
 export async function loader() {
-  const settings = await getBlogSettings();
+  const settings = getBlogSettings();
   return json({ settings });
 }
 
 export default function App() {
   const { settings } = useLoaderData<typeof loader>();
   const [theme, setTheme] = useLocalStorage("theme", settings.theme);
-  const location = useLocation();
 
   React.useEffect(() => {
-    document.documentElement.className = theme;
+    document.documentElement.className = `theme-${theme}`;
     document.documentElement.style.setProperty('--primary-color', settings.primaryColor);
     document.documentElement.style.setProperty('--content-width', `${settings.contentWidth}px`);
     document.documentElement.style.fontFamily = settings.fontFamily;
   }, [theme, settings]);
 
-  const toggleTheme = () => {
+  const toggleTheme = React.useCallback(() => {
     setTheme(prevTheme => prevTheme === 'dark' ? 'light' : 'dark');
-  };
+  }, [setTheme]);
+
+  const MemoizedNavbar = React.memo(Navbar);
+  const MemoizedThemeToggle = React.memo(ThemeToggle);
+  const MemoizedScrollProgressBar = React.memo(ScrollProgressBar);
 
   return (
-    <html lang="zh-CN" className={theme}>
+    <html lang="zh-CN" className={`theme-${theme}`}>
       <head>
         <Meta />
         <title>{settings.title}</title>
         <Links />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": settings.title,
+            "description": settings.description,
+            "author": {
+              "@type": "Person",
+              "name": settings.author
+            }
+          })}
+        </script>
       </head>
       <body className="bg-white dark:bg-gray-900 text-black dark:text-white">
-        <Navbar links={settings.headerLinks} />
-        <ScrollProgressBar />
+        <MemoizedNavbar links={settings.headerLinks} />
+        <MemoizedScrollProgressBar />
         <div className="fixed top-4 right-4 z-50">
-          <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+          <MemoizedThemeToggle theme={theme} toggleTheme={toggleTheme} />
         </div>
         <div className="mx-auto px-4 py-8" style={{ maxWidth: `${settings.contentWidth}px` }}>
           <Outlet />
