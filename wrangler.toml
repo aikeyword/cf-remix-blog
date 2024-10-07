@@ -11,10 +11,10 @@ assets = { directory = "./build/client" }
 enabled = true
 
 [vars]
-BLOG_SETTINGS = '''
+config = '''
 {
-  title: "Remix个人博客@cf_workers",
-  description: "分享我的想法和经验",
+  title: "请将此变量复制到下面的Build阶段变量中",
+  description: "并根据实际修改",
   author: "aigem",
   postsPerPage: 3,
   postsJsonUrl: "https://raw.githubusercontent.com/yourusername/your-repo/main/public/posts.json",
