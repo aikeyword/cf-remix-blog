@@ -9,6 +9,12 @@ console.log('Current BLOG_SETTINGS:', process.env.Build_BLOG_SETTINGS);
 console.log('Current BLOG_SETTINGS:', process.env.blog_test);
 console.log('Current BLOG_SETTINGS:', Cloudflare.env.Build_BLOG_SETTINGS);
 console.log('Current BLOG_SETTINGS:', Cloudflare.env.blog_test);
+console.log('Current BLOG_SETTINGS: ${env.Build_BLOG_SETTINGS}');
+console.log('Current BLOG_SETTINGS: ${env.blog_test}');
+console.log('Current BLOG_SETTINGS: ${ process.env.Build_BLOG_SETTINGS }');
+console.log('Current BLOG_SETTINGS: ${ process.env.blog_test }');
+console.log('Current BLOG_SETTINGS: ${ Cloudflare.env.Build_BLOG_SETTINGS }');
+console.log('Current BLOG_SETTINGS: ${ Cloudflare.env.blog_test }');
 
 // 如果需要更新 BLOG_SETTINGS，可以在这里进行
 // wranglerConfig.vars.BLOG_SETTINGS = newSettings;
