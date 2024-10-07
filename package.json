@@ -15,6 +15,7 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
+    "@iarna/toml": "^2.2.5",
     "@remix-run/cloudflare": "^2.12.0",
     "@remix-run/cloudflare-pages": "^2.12.0",
     "@remix-run/react": "^2.12.0",
