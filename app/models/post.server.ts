@@ -21,8 +21,8 @@ async function fetchPosts(): Promise<Post[]> {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
     const text = await response.text();
-    const decodedText = decodeURIComponent(escape(text));
-    return JSON.parse(decodedText);
+    // 移除这一行: const decodedText = decodeURIComponent(escape(text));
+    return JSON.parse(text); // 直接解析 text
 }
 
 export async function getPosts(): Promise<Post[]> {
