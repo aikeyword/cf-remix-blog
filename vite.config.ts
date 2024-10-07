@@ -18,7 +18,6 @@ export default defineConfig({
     tsconfigPaths(),
   ],
   define: {
-    // 这里我们确保 BLOG_SETTINGS 在构建时是未定义的
-    BLOG_SETTINGS: 'undefined',
+    "process.env.BLOG_SETTINGS": JSON.stringify(process.env.BLOG_SETTINGS || '{}'),
   },
 });

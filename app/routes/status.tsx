@@ -4,8 +4,35 @@ import { getPosts } from "~/models/post.server";
 import type { LoaderArgs } from "@remix-run/cloudflare";
 import type { BlogSettings } from "~/types/blog";
 
+const defaultBlogSettings = {
+    title: "Remix个人博客@cf_workers",
+    description: "分享我的想法和经验",
+    author: "aigem",
+    postsPerPage: 3,
+    postsJsonUrl: "https://raw.githubusercontent.com/yourusername/your-repo/main/public/posts.json",
+    theme: "default",
+    footerText: "© {year} CF Workers Remix Blog. 保留所有权利.",
+    headerLinks: [
+        { text: "首页", url: "/" },
+        { text: "文章", url: "/posts" },
+        { text: "关于", url: "/about" },
+        { text: "Github", url: "https://github.com/aigem/cf-remix-blog" }
+    ],
+    contentWidth: 800,
+    primaryColor: "#3b82f6",
+    fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif"
+};
+
 export async function loader({ context }: LoaderArgs) {
-    const settings: BlogSettings = JSON.parse(context.BLOG_SETTINGS);
+    let settings: BlogSettings;
+    try {
+        console.log("Raw BLOG_SETTINGS:", context.BLOG_SETTINGS);
+        settings = JSON.parse(context.BLOG_SETTINGS);
+    } catch (error) {
+        console.error("Error parsing BLOG_SETTINGS:", error);
+        settings = defaultBlogSettings; // 使用默认设置
+    }
+    
     const posts = await getPosts();
     const tags = [...new Set(posts.flatMap(post => post.tags))];
 
