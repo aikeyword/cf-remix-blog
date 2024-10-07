@@ -61,7 +61,7 @@
    5.2 通过 GitHub 部署到 Cloudflare Workers
    在 Cloudflare 的设置中绑定 GitHub 仓库，之后只需更新 GitHub 仓库中的文件即可自动部署到 Workers。非常方便。
    新建的workers名称必须与wrangler.toml文件中的name一致，否则会部署失败。
-   
+
    视频教程：
 
 ## 自定义
@@ -120,6 +120,28 @@
 - 使用 Remix 的 `prefetch` 功能预加载内容
 - 实现数据缓存策略
 - 优化图片加载
+
+## css部分
+
+要应用这些样式，你需要在相应的组件中使用适当的类名。例如，对于文章卡片，你可以这样修改 app/routes/posts._index.tsx：
+
+
+<motion.article
+  key={post.slug}
+  className="card p-6 transition-shadow duration-300 ease-in-out"
+  whileHover={{ scale: 1.02 }}
+  whileTap={{ scale: 0.98 }}
+>
+  {/* ... 文章内容 ... */}
+</motion.article>
+对于按钮，你可以在需要的地方添加 button 类：
+
+
+<Link to="/posts" className="button inline-block mt-8">
+  查看所有文章
+</Link>
+这些 CSS 改进将使你的博客更加美观和互动，同时保持了简洁的设计风格。你可以根据需要进一步调整这些样式，以达到你想要的视觉效果。
+
 
 ## 贡献
 

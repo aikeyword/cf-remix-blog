@@ -1,55 +1,161 @@
 /* 默认主题 */
 :root {
-  --bg-color: #ffffff;
-  --text-color: #333333;
-  --link-color: #3b82f6;
-  --header-bg: #f3f4f6;
-  --header-text: #1f2937;
-  --footer-bg: #f3f4f6;
-  --footer-text: #4b5563;
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --link-color: #3b82f6;
+    --header-bg: #f3f4f6;
+    --header-text: #1f2937;
+    --footer-bg: #f3f4f6;
+    --footer-text: #4b5563;
+    --card-bg: #ffffff;
+    --card-border: #e5e7eb;
+    --hover-bg: #f9fafb;
 }
 
 /* 深色主题 */
 .theme-dark {
-  --bg-color: #1f2937;
-  --text-color: #f3f4f6;
-  --link-color: #60a5fa;
-  --header-bg: #111827;
-  --header-text: #f9fafb;
-  --footer-bg: #111827;
-  --footer-text: #9ca3af;
+    --bg-color: #1f2937;
+    --text-color: #f3f4f6;
+    --link-color: #60a5fa;
+    --header-bg: #111827;
+    --header-text: #f9fafb;
+    --footer-bg: #111827;
+    --footer-text: #9ca3af;
+    --card-bg: #374151;
+    --card-border: #4b5563;
+    --hover-bg: #2d3748;
 }
 
 /* 浅色主题 */
 .theme-light {
-  --bg-color: #f9fafb;
-  --text-color: #1f2937;
-  --link-color: #2563eb;
-  --header-bg: #ffffff;
-  --header-text: #111827;
-  --footer-bg: #f3f4f6;
-  --footer-text: #4b5563;
+    --bg-color: #f9fafb;
+    --text-color: #1f2937;
+    --link-color: #2563eb;
+    --header-bg: #ffffff;
+    --header-text: #111827;
+    --footer-bg: #f3f4f6;
+    --footer-text: #4b5563;
+    --card-bg: #ffffff;
+    --card-border: #e5e7eb;
+    --hover-bg: #f3f4f6;
 }
 
 body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
-  color: var(--link-color);
-  transition: color 0.3s ease;
+    color: var(--link-color);
+    transition: color 0.3s ease;
 }
 
 header {
-  background-color: var(--header-bg);
-  color: var(--header-text);
-  transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 footer {
-  background-color: var(--footer-bg);
-  color: var(--footer-text);
-  transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 新增样式 */
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    background-color: var(--hover-bg);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* 平滑滚动 */
+html {
+    scroll-behavior: smooth;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--link-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-color);
+}
+
+/* 文本选择样式 */
+::selection {
+    background-color: var(--link-color);
+    color: var(--bg-color);
+}
+
+/* 焦点样式 */
+:focus {
+    outline: 2px solid var(--link-color);
+    outline-offset: 2px;
+}
+
+/* 标题样式 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: bold;
+    line-height: 1.2;
+    margin-bottom: 0.5em;
+}
+
+/* 链接悬停效果 */
+a:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+/* 按钮样式 */
+.button {
+    background-color: var(--link-color);
+    color: var(--bg-color);
+    padding: 0.5em 1em;
+    border-radius: 0.25em;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* 代码块样式 */
+pre,
+code {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 0.25em;
+    padding: 0.2em 0.4em;
+}
+
+/* 引用样式 */
+blockquote {
+    border-left: 4px solid var(--link-color);
+    padding-left: 1em;
+    font-style: italic;
+    margin: 1em 0;
 }
