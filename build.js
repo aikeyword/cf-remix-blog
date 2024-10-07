@@ -21,19 +21,39 @@ const defaultBlogSettings = {
     fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif"
 };
 
+console.log("BLOG_SETTINGS 环境变量:", process.env.BLOG_SETTINGS);
+
 // 读取环境变量中的 BLOG_SETTINGS 或使用默认值
-const blogSettings = process.env.BLOG_SETTINGS
-    ? JSON.parse(process.env.BLOG_SETTINGS)
-    : defaultBlogSettings;
+let blogSettings;
+try {
+    blogSettings = process.env.BLOG_SETTINGS
+        ? JSON.parse(process.env.BLOG_SETTINGS)
+        : defaultBlogSettings;
+} catch (error) {
+    console.error("解析 BLOG_SETTINGS 时出错:", error);
+    blogSettings = defaultBlogSettings;
+}
+
+console.log("使用的 blogSettings:", blogSettings);
 
 // 读取 wrangler.toml 文件
-const wranglerConfig = toml.parse(fs.readFileSync('./wrangler.toml', 'utf-8'));
+let wranglerConfig;
+try {
+    wranglerConfig = toml.parse(fs.readFileSync('./wrangler.toml', 'utf-8'));
+} catch (error) {
+    console.error("读取或解析 wrangler.toml 时出错:", error);
+    process.exit(1);
+}
 
 // 更新 [vars] 部分
 wranglerConfig.vars = wranglerConfig.vars || {};
 wranglerConfig.vars.BLOG_SETTINGS = JSON.stringify(blogSettings);
 
 // 将更新后的配置写回 wrangler.toml 文件
-fs.writeFileSync('./wrangler.toml', toml.stringify(wranglerConfig));
-
-console.log('Updated wrangler.toml with BLOG_SETTINGS');
+try {
+    fs.writeFileSync('./wrangler.toml', toml.stringify(wranglerConfig));
+    console.log('成功更新 wrangler.toml 的 BLOG_SETTINGS');
+} catch (error) {
+    console.error("写入 wrangler.toml 时出错:", error);
+    process.exit(1);
+}
