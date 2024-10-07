@@ -19,6 +19,5 @@ BLOG_SETTINGS = '''
 }
 '''
 
-[build]
-    [vars]
-    Build_BLOG_SETTINGS = "test Build_BLOG_SETTINGS"
+[build.vars]
+Build_BLOG_SETTINGS = "test Build_BLOG_SETTINGS"
