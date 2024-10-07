@@ -1,4 +1,3 @@
-
 // 优先从环境变量中获取，如果获取失败，则使用默认设置
 // 博客设置
 
@@ -33,4 +32,15 @@ export function getBlogSettings(): BlogSettings {
         console.error('Error parsing BLOG_SETTINGS:', error);
         return defaultSettings;
     }
+}
+
+export function getBuildTimeBlogSettings(): BlogSettings {
+    if (process.env.BLOG_SETTINGS) {
+        try {
+            return JSON.parse(process.env.BLOG_SETTINGS);
+        } catch (error) {
+            console.error('Error parsing build-time BLOG_SETTINGS:', error);
+        }
+    }
+    return defaultSettings;
 }

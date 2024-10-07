@@ -36,6 +36,7 @@ export default function Navbar({ links }: NavbarProps) {
                                 {link.text}
                             </NavLink>
                         ))}
+                        <NavLink to="/status">状态</NavLink>
                     </div>
                     <div className="-mr-2 flex items-center md:hidden">
                         <button
