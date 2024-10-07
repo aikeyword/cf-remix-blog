@@ -6,13 +6,13 @@ import { getBlogSettings } from "~/utils/getBlogSettings";
 
 export async function loader({ context }: LoaderFunctionArgs) {
     const settings = getBlogSettings(context);
-    
+
     const posts = await getPosts();
     const tags = [...new Set(posts.flatMap(post => post.tags))];
 
     // 获取环境变量
     const env = {
-        BLOG_SETTINGS: context.env.BLOG_SETTINGS,
+        BLOG_SETTINGS: process.env.BLOG_SETTINGS,
         // 添加其他你想显示的环境变量
     };
 
