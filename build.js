@@ -1,5 +1,5 @@
-const fs = require('fs');
-const toml = require('@iarna/toml');
+import fs from 'fs';
+import toml from '@iarna/toml';
 
 // 默认的 BLOG_SETTINGS
 const defaultBlogSettings = {
