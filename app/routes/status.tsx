@@ -1,39 +1,13 @@
 import { json } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import { getPosts } from "~/models/post.server";
-import type { LoaderFunctionArgs } from "@remix-run/cloudflare"; // 更新这里
+import type { LoaderFunctionArgs } from "@remix-run/cloudflare";
 import type { BlogSettings } from "~/types/blog";
+import { defaultBlogSettings } from "~/config/defaultBlogSettings";
+import { getBlogSettings } from "~/utils/getBlogSettings";
 
-const defaultBlogSettings = {
-    title: "Remix个人博客@cf_workers",
-    description: "分享我的想法和经验",
-    author: "aigem",
-    postsPerPage: 3,
-    postsJsonUrl: "https://raw.githubusercontent.com/yourusername/your-repo/main/public/posts.json",
-    theme: "default",
-    footerText: "© {year} CF Workers Remix Blog. 保留所有权利.",
-    headerLinks: [
-        { text: "首页", url: "/" },
-        { text: "文章", url: "/posts" },
-        { text: "关于", url: "/about" },
-        { text: "Github", url: "https://github.com/aigem/cf-remix-blog" }
-    ],
-    contentWidth: 800,
-    primaryColor: "#3b82f6",
-    fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif"
-};
-
-export async function loader({ context }: LoaderFunctionArgs) { // 更新这里
-    let settings: BlogSettings;
-    try {
-        console.log("Raw BLOG_SETTINGS:", context.BLOG_SETTINGS);
-        settings = typeof context.BLOG_SETTINGS === 'string' 
-            ? JSON.parse(context.BLOG_SETTINGS)
-            : (context.BLOG_SETTINGS || defaultBlogSettings);
-    } catch (error) {
-        console.error("Error parsing BLOG_SETTINGS:", error);
-        settings = defaultBlogSettings;
-    }
+export async function loader({ context }: LoaderFunctionArgs) {
+    const settings = getBlogSettings(context);
     
     const posts = await getPosts();
     const tags = [...new Set(posts.flatMap(post => post.tags))];

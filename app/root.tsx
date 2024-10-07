@@ -15,6 +15,8 @@ import ThemeToggle from "~/components/ThemeToggle";
 import ScrollProgressBar from "~/components/ScrollProgressBar";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import type { BlogSettings } from "~/types/blog";
+import { getBlogSettings } from "~/utils/getBlogSettings";
+import { defaultBlogSettings } from "~/config/defaultBlogSettings";
 
 import "./tailwind.css";
 import "./styles/themes.css";
@@ -43,14 +45,14 @@ export const links: LinksFunction = () => [
   { rel: "manifest", href: "/site.webmanifest" },
 ];
 
-export async function loader({ context }: LoaderArgs) {
-  const settings: BlogSettings = JSON.parse(context.BLOG_SETTINGS);
+export const loader = async ({ context }: LoaderArgs) => {
+  const settings = getBlogSettings(context);
   return json({ settings });
-}
+};
 
 export default function App() {
   const { settings } = useLoaderData<typeof loader>();
-  const [theme, setTheme] = useLocalStorage("theme", settings.theme);
+  const [theme, setTheme] = useLocalStorage("theme", settings.theme || defaultBlogSettings.theme);
 
   React.useEffect(() => {
     document.documentElement.className = `theme-${theme}`;
