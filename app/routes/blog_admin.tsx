@@ -36,10 +36,17 @@ export async function action({ request }: ActionArgs) {
         theme: formData.get("theme") as string,
         footerText: formData.get("footerText") as string,
         headerLinks: JSON.parse(formData.get("headerLinks") as string),
+        contentWidth: parseInt(formData.get("contentWidth") as string, 10),
+        primaryColor: formData.get("primaryColor") as string,
+        fontFamily: formData.get("fontFamily") as string,
     };
 
-    await saveBlogSettings(newSettings);
-    return redirect("/blog_admin?admin=true");
+    try {
+        await saveBlogSettings(newSettings);
+        return json({ success: true });
+    } catch (error) {
+        return json({ error: "保存设置失败" }, { status: 500 });
+    }
 }
 
 export default function BlogAdmin() {
@@ -158,6 +165,40 @@ export default function BlogAdmin() {
                         className="w-full p-2 border rounded"
                         rows={5}
                     />
+                </div>
+                <div>
+                    <label htmlFor="contentWidth" className="block mb-2">内容宽度 (像素)</label>
+                    <input
+                        type="number"
+                        id="contentWidth"
+                        name="contentWidth"
+                        defaultValue={settings.contentWidth}
+                        className="w-full p-2 border rounded"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="primaryColor" className="block mb-2">主色调</label>
+                    <input
+                        type="color"
+                        id="primaryColor"
+                        name="primaryColor"
+                        defaultValue={settings.primaryColor}
+                        className="w-full p-2 border rounded"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="fontFamily" className="block mb-2">字体</label>
+                    <select
+                        id="fontFamily"
+                        name="fontFamily"
+                        defaultValue={settings.fontFamily}
+                        className="w-full p-2 border rounded"
+                    >
+                        <option value="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif">系统默认字体</option>
+                        <option value="'Noto Serif SC', serif">Noto Serif SC</option>
+                        <option value="'Source Han Sans SC', sans-serif">思源黑体</option>
+                        <option value="'Source Han Serif SC', serif">思源宋体</option>
+                    </select>
                 </div>
                 <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                     保存设置

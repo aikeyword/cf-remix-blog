@@ -10,6 +10,8 @@
     --card-bg: #ffffff;
     --card-border: #e5e7eb;
     --hover-bg: #f9fafb;
+    --primary-color: #3b82f6;
+    --content-width: 800px;
 }
 
 /* 深色主题 */
@@ -131,7 +133,7 @@ a:hover {
 
 /* 按钮样式 */
 .button {
-    background-color: var(--link-color);
+    background-color: var(--primary-color);
     color: var(--bg-color);
     padding: 0.5em 1em;
     border-radius: 0.25em;

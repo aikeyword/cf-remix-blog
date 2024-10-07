@@ -40,45 +40,35 @@ export default function App() {
   const [theme, setTheme] = useLocalStorage("theme", settings.theme);
   const location = useLocation();
 
+  React.useEffect(() => {
+    document.documentElement.className = theme;
+    document.documentElement.style.setProperty('--primary-color', settings.primaryColor);
+    document.documentElement.style.setProperty('--content-width', `${settings.contentWidth}px`);
+    document.documentElement.style.fontFamily = settings.fontFamily;
+  }, [theme, settings]);
+
   const toggleTheme = () => {
     setTheme(prevTheme => prevTheme === 'dark' ? 'light' : 'dark');
   };
 
   return (
-    <html lang="zh-CN" className={`h-full ${theme}`}>
+    <html lang="zh-CN" className={theme}>
       <head>
         <Meta />
         <title>{settings.title}</title>
         <Links />
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            (function() {
-              var theme = localStorage.getItem('theme') || '${settings.theme}';
-              document.documentElement.className = theme;
-            })();
-          `
-        }} />
       </head>
-      <body className="h-full font-sans antialiased">
+      <body className="bg-white dark:bg-gray-900 text-black dark:text-white">
         <Navbar links={settings.headerLinks} />
         <ScrollProgressBar />
         <div className="fixed top-4 right-4 z-50">
           <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
         </div>
-        <AnimatePresence mode="wait">
-          <motion.main
-            key={location.pathname}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="container mx-auto px-4 py-8"
-          >
-            <Outlet />
-          </motion.main>
-        </AnimatePresence>
+        <div className="mx-auto px-4 py-8" style={{ maxWidth: `${settings.contentWidth}px` }}>
+          <Outlet />
+        </div>
         <footer className="py-4 mt-8 bg-gray-100 dark:bg-gray-800">
-          <div className="container mx-auto px-4 text-center text-sm text-gray-600 dark:text-gray-400">
+          <div className="mx-auto px-4 text-center text-sm text-gray-600 dark:text-gray-400" style={{ maxWidth: `${settings.contentWidth}px` }}>
             {settings.footerText.replace('{year}', new Date().getFullYear().toString())}
           </div>
         </footer>

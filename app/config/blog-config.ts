@@ -13,16 +13,29 @@ export const defaultBlogSettings: BlogSettings = {
     { text: "首页", url: "/" },
     { text: "文章", url: "/posts" },
     { text: "关于", url: "/about" },
-  ]
+  ],
+  contentWidth: 800, // 新增：默认内容宽度
+  primaryColor: "#3b82f6", // 新增：默认主色调
+  fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif", // 新增：默认字体
 };
 
+// 这里假设我们使用了 Cloudflare KV 存储
+// 你需要在 wrangler.toml 中配置 KV 命名空间
 export async function getBlogSettings(): Promise<BlogSettings> {
-  // 这里可以从 KV 存储或其他持久化存储中获取设置
-  // 暂时返回默认设置
-  return defaultBlogSettings;
+  try {
+    const settings = await BLOG_SETTINGS.get('settings');
+    return settings ? JSON.parse(settings) : defaultBlogSettings;
+  } catch (error) {
+    console.error('Error fetching blog settings:', error);
+    return defaultBlogSettings;
+  }
 }
 
 export async function saveBlogSettings(settings: BlogSettings): Promise<void> {
-  // 这里应该实现将设置保存到 KV 存储或其他持久化存储的逻辑
-  console.log("保存设置:", settings);
+  try {
+    await BLOG_SETTINGS.put('settings', JSON.stringify(settings));
+  } catch (error) {
+    console.error('Error saving blog settings:', error);
+    throw new Error('Failed to save blog settings');
+  }
 }
