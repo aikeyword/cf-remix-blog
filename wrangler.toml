@@ -11,7 +11,7 @@ assets = { directory = "./build/client" }
 enabled = true
 
 [vars]
-config = '''
+BLOG_SETTINGS = '''
 {
   "title": "请将此变量复制到下面的Build阶段变量中",
   "description": "并根据实际修改",
