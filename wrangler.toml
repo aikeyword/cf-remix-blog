@@ -13,21 +13,21 @@ enabled = true
 [vars]
 config = '''
 {
-  title: "请将此变量复制到下面的Build阶段变量中",
-  description: "并根据实际修改",
-  author: "aigem",
-  postsPerPage: 3,
-  postsJsonUrl: "https://raw.githubusercontent.com/yourusername/your-repo/main/public/posts.json",
-  theme: "default",
-  footerText: "© {year} CF Workers Remix Blog. 保留所有权利.",
-  headerLinks: [
-    { text: "首页", url: "/" },
-    { text: "文章", url: "/posts" },
-    { text: "关于", url: "/about" },
-    { text: "Github", url: "https://github.com/aigem/cf-remix-blog" }
+  "title": "请将此变量复制到下面的Build阶段变量中",
+  "description": "并根据实际修改",
+  "author": "aigem",
+  "postsPerPage": 3,
+  "postsJsonUrl": "https://raw.githubusercontent.com/yourusername/your-repo/main/public/posts.json",
+  "theme": "default",
+  "footerText": "© {year} CF Workers Remix Blog. 保留所有权利.",
+  "headerLinks": [
+    { "text": "首页", "url": "/" },
+    { "text": "文章", "url": "/posts" },
+    { "text": "关于", "url": "/about" },
+    { "text": "Github", "url": "https://github.com/aigem/cf-remix-blog" }
   ],
-  contentWidth: 800,
-  primaryColor: "#3b82f6",
-  fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif"
+  "contentWidth": 800,
+  "primaryColor": "#3b82f6",
+  "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif"
 }
 '''
