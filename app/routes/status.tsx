@@ -4,17 +4,17 @@ import { getPosts } from "~/models/post.server";
 import type { LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { getBlogSettings } from "~/utils/getBlogSettings";
 
-export async function loader({ context }: LoaderFunctionArgs) {
-    const settings = getBlogSettings(context);
+export interface Env {
+    BLOG_SETTINGS: string;
+    // 添加其他环境变量
+}
 
+export async function loader({ context }: LoaderFunctionArgs) {
+    const env = context.env as Env;
+    const settings = getBlogSettings(env);
+    
     const posts = await getPosts();
     const tags = [...new Set(posts.flatMap(post => post.tags))];
-
-    // 获取环境变量
-    const env = {
-        BLOG_SETTINGS: process.env.BLOG_SETTINGS,
-        // 添加其他你想显示的环境变量
-    };
 
     return json({
         settings,
@@ -22,7 +22,10 @@ export async function loader({ context }: LoaderFunctionArgs) {
             totalPosts: posts.length,
             totalTags: tags.length,
         },
-        env,
+        env: {
+            BLOG_SETTINGS: env.BLOG_SETTINGS,
+            // 添加其他你想显示的环境变量
+        },
     });
 }
 

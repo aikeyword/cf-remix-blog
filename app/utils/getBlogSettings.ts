@@ -1,8 +1,12 @@
 import { BlogSettings, defaultBlogSettings } from "~/types/blog";
 
-export function getBlogSettings(context: any): BlogSettings {
+export interface Env {
+  BLOG_SETTINGS: string;
+}
+
+export function getBlogSettings(env: Env): BlogSettings {
     let settings: BlogSettings;
-    let rawSettings = process.env.BLOG_SETTINGS;
+    let rawSettings = env.BLOG_SETTINGS;
 
     try {
         if (typeof rawSettings === 'string') {
