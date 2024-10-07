@@ -16,6 +16,7 @@ import Navbar from "~/components/Navbar";
 import ThemeToggle from "~/components/ThemeToggle";
 import ScrollProgressBar from "~/components/ScrollProgressBar";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
+import { getBlogSettings } from '~/config/blog-config';
 
 import "./tailwind.css";
 import "./styles/themes.css";
@@ -30,33 +31,36 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader() {
-  const theme = "default"; // 或 'dark' 或 'light'
-  return json({ theme });
+  const settings = await getBlogSettings();
+  return json({ settings });
 }
 
 export default function App() {
-  const { theme: initialTheme } = useLoaderData<typeof loader>();
-  const [theme, setTheme] = useLocalStorage("theme", initialTheme);
+  const { settings } = useLoaderData<typeof loader>();
+  const [theme, setTheme] = useLocalStorage("theme", settings.theme);
   const location = useLocation();
-
-  React.useEffect(() => {
-    document.documentElement.lang = "zh-CN";
-    document.documentElement.className = theme;
-  }, [theme]);
 
   const toggleTheme = () => {
     setTheme(prevTheme => prevTheme === 'dark' ? 'light' : 'dark');
   };
 
   return (
-    <html lang="zh-CN" className={`h-full ${theme === 'dark' ? 'theme-dark' : 'theme-light'}`}>
+    <html lang="zh-CN" className={`h-full ${theme}`}>
       <head>
         <Meta />
-        <title>我的个人博客</title>
+        <title>{settings.title}</title>
         <Links />
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            (function() {
+              var theme = localStorage.getItem('theme') || '${settings.theme}';
+              document.documentElement.className = theme;
+            })();
+          `
+        }} />
       </head>
       <body className="h-full font-sans antialiased">
-        <Navbar />
+        <Navbar links={settings.headerLinks} />
         <ScrollProgressBar />
         <div className="fixed top-4 right-4 z-50">
           <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
@@ -75,7 +79,7 @@ export default function App() {
         </AnimatePresence>
         <footer className="py-4 mt-8 bg-gray-100 dark:bg-gray-800">
           <div className="container mx-auto px-4 text-center text-sm text-gray-600 dark:text-gray-400">
-            © {new Date().getFullYear()} 我的个人博客. 保留所有权利.
+            {settings.footerText.replace('{year}', new Date().getFullYear().toString())}
           </div>
         </footer>
         <ScrollRestoration />

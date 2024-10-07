@@ -1,7 +1,17 @@
 import { Link, useLocation } from "@remix-run/react";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
-export default function Navbar() {
+interface NavLink {
+    text: string;
+    url: string;
+}
+
+interface NavbarProps {
+    links: NavLink[];
+}
+
+export default function Navbar({ links }: NavbarProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const location = useLocation();
 
@@ -11,13 +21,21 @@ export default function Navbar() {
                 <div className="flex justify-between h-16">
                     <div className="flex">
                         <Link to="/" className="flex-shrink-0 flex items-center">
-                            <span className="text-2xl font-bold text-gray-900 dark:text-white">我的博客</span>
+                            <motion.span
+                                className="text-2xl font-bold text-gray-900 dark:text-white"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                我的博客
+                            </motion.span>
                         </Link>
                     </div>
                     <div className="hidden md:ml-6 md:flex md:space-x-8">
-                        <NavLink to="/">首页</NavLink>
-                        <NavLink to="/posts">文章</NavLink>
-                        <NavLink to="/about">关于</NavLink>
+                        {links.map((link) => (
+                            <NavLink key={link.url} to={link.url}>
+                                {link.text}
+                            </NavLink>
+                        ))}
                     </div>
                     <div className="-mr-2 flex items-center md:hidden">
                         <button
@@ -52,13 +70,17 @@ function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
     const isActive = location.pathname === to;
 
     return (
-        <Link
-            to={to}
-            className={`${isActive ? 'bg-gray-100 dark:bg-gray-700' : ''} text-gray-900 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium`}
-            aria-current={isActive ? 'page' : undefined}
-        >
-            {children}
-        </Link>
+        <motion.div whileHover={{ y: -2 }} whileTap={{ y: 0 }}>
+            <Link
+                to={to}
+                className={`${
+                    isActive ? 'border-b-2 border-blue-500' : ''
+                } text-gray-900 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium`}
+                aria-current={isActive ? 'page' : undefined}
+            >
+                {children}
+            </Link>
+        </motion.div>
     );
 }
 

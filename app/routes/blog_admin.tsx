@@ -2,56 +2,26 @@ import { useEffect, useState } from "react";
 import { json, redirect } from "@remix-run/cloudflare";
 import { useLoaderData, useActionData, Form, useSubmit } from "@remix-run/react";
 import type { ActionArgs, LoaderArgs } from "@remix-run/cloudflare";
-
-interface BlogSettings {
-    title: string;
-    description: string;
-    author: string;
-    postsPerPage: number;
-    postsJsonUrl: string;
-    adminPassword: string;
-    theme: string;
-}
-
-// 模拟从某个存储中获取设置
-async function getSettings(): Promise<BlogSettings> {
-    return {
-        title: "我的个人博客",
-        description: "分享我的想法和经验",
-        author: "您的名字",
-        postsPerPage: 10,
-        postsJsonUrl: "https://raw.githubusercontent.com/yourusername/your-repo/main/public/posts.json",
-        adminPassword: "admin123", // 注意: 实际应用中应使用更安全的方式存储密码
-        theme: "default",
-    };
-}
-
-// 模拟保存设置
-async function saveSettings(settings: BlogSettings): Promise<void> {
-    console.log("保存设置:", settings);
-    // 这里应该实现实际的保存逻辑
-}
-
-// 模拟会话管理
-async function getSession(cookie: string | null): Promise<{ has: (key: string) => boolean }> {
-    // 这里应该实现实际的会话管理逻辑
-    return {
-        has: (key: string) => key === "isAdmin",
-    };
-}
+import { getBlogSettings, saveBlogSettings } from '~/config/blog-config';
+import type { BlogSettings } from '~/types/blog';
 
 export async function loader({ request }: LoaderArgs) {
-    const session = await getSession(request.headers.get("Cookie"));
-    if (!session.has("isAdmin")) {
+    const url = new URL(request.url);
+    const isAdmin = url.searchParams.get("admin") === "true";
+    
+    if (!isAdmin) {
         return redirect("/login");
     }
-    const settings = await getSettings();
+    
+    const settings = await getBlogSettings();
     return json(settings);
 }
 
 export async function action({ request }: ActionArgs) {
-    const session = await getSession(request.headers.get("Cookie"));
-    if (!session.has("isAdmin")) {
+    const url = new URL(request.url);
+    const isAdmin = url.searchParams.get("admin") === "true";
+
+    if (!isAdmin) {
         return json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -62,12 +32,14 @@ export async function action({ request }: ActionArgs) {
         author: formData.get("author") as string,
         postsPerPage: parseInt(formData.get("postsPerPage") as string, 10),
         postsJsonUrl: formData.get("postsJsonUrl") as string,
-        adminPassword: formData.get("newPassword") as string || (await getSettings()).adminPassword,
+        adminPassword: formData.get("newPassword") as string || (await getBlogSettings()).adminPassword,
         theme: formData.get("theme") as string,
+        footerText: formData.get("footerText") as string,
+        headerLinks: JSON.parse(formData.get("headerLinks") as string),
     };
 
-    await saveSettings(newSettings);
-    return redirect("/blog_admin");
+    await saveBlogSettings(newSettings);
+    return redirect("/blog_admin?admin=true");
 }
 
 export default function BlogAdmin() {
@@ -166,6 +138,26 @@ export default function BlogAdmin() {
                     >
                         {showPassword ? "隐藏密码" : "显示密码"}
                     </button>
+                </div>
+                <div>
+                    <label htmlFor="footerText" className="block mb-2">页脚文本</label>
+                    <input
+                        type="text"
+                        id="footerText"
+                        name="footerText"
+                        defaultValue={settings.footerText}
+                        className="w-full p-2 border rounded"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="headerLinks" className="block mb-2">页眉链接 (JSON 格式)</label>
+                    <textarea
+                        id="headerLinks"
+                        name="headerLinks"
+                        defaultValue={JSON.stringify(settings.headerLinks, null, 2)}
+                        className="w-full p-2 border rounded"
+                        rows={5}
+                    />
                 </div>
                 <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                     保存设置
