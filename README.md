@@ -150,3 +150,7 @@
 ## 许可证
 
 MIT
+
+## 博客设置
+
+您可以通过修改 `app/types/blog.ts` 文件中的 `defaultBlogSettings` 对象来自定义您的博客设置:

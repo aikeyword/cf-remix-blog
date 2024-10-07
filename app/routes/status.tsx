@@ -2,7 +2,6 @@ import { json } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import { getPosts } from "~/models/post.server";
 import type { LoaderFunctionArgs } from "@remix-run/cloudflare";
-import type { BlogSettings } from "~/types/blog";
 import { getBlogSettings } from "~/utils/getBlogSettings";
 
 export async function loader({ context }: LoaderFunctionArgs) {
@@ -11,18 +10,21 @@ export async function loader({ context }: LoaderFunctionArgs) {
     const posts = await getPosts();
     const tags = [...new Set(posts.flatMap(post => post.tags))];
 
+    // 获取所有环境变量
+    const env = context.env;
+
     return json({
         settings,
         stats: {
             totalPosts: posts.length,
             totalTags: tags.length,
         },
-        blogSettingsEnv: context.BLOG_SETTINGS,
+        env,
     });
 }
 
 export default function Status() {
-    const { settings, stats, blogSettingsEnv } = useLoaderData<typeof loader>();
+    const { settings, stats, env } = useLoaderData<typeof loader>();
 
     return (
         <div className="max-w-4xl mx-auto px-4 py-8">
@@ -33,9 +35,9 @@ export default function Status() {
                 {JSON.stringify(settings, null, 2)}
             </pre>
 
-            <h2 className="text-2xl font-semibold mb-4">环境变量中的博客设置</h2>
+            <h2 className="text-2xl font-semibold mb-4">环境变量</h2>
             <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded overflow-auto mb-6">
-                {typeof blogSettingsEnv === 'string' ? blogSettingsEnv : JSON.stringify(blogSettingsEnv)}
+                {JSON.stringify(env, null, 2)}
             </pre>
 
             <h2 className="text-2xl font-semibold mb-4">统计信息</h2>
