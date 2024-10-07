@@ -2,7 +2,7 @@ import { json } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import { getPosts } from "~/models/post.server";
 import type { LoaderFunctionArgs } from "@remix-run/cloudflare";
-import { getBlogSettings } from "~/utils/getBlogSettings";
+import { getBlogSettings, Env } from "~/utils/getBlogSettings";
 
 export interface Env {
     BLOG_SETTINGS: string;
@@ -23,8 +23,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
             totalTags: tags.length,
         },
         env: {
-            BLOG_SETTINGS: env.BLOG_SETTINGS,
-            // 添加其他你想显示的环境变量
+            BLOG_SETTINGS: typeof env.BLOG_SETTINGS === 'string' ? env.BLOG_SETTINGS : JSON.stringify(env.BLOG_SETTINGS),
         },
     });
 }

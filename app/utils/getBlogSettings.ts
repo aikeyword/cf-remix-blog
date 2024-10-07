@@ -1,7 +1,7 @@
 import { BlogSettings, defaultBlogSettings } from "~/types/blog";
 
 export interface Env {
-  BLOG_SETTINGS: string;
+  BLOG_SETTINGS?: string;
 }
 
 export function getBlogSettings(env: Env): BlogSettings {
