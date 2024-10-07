@@ -35,4 +35,5 @@ export const defaultBlogSettings: BlogSettings = ${JSON.stringify(blogSettingsOb
 
 fs.writeFileSync('./app/types/blog.ts', typesContent);
 
-console.log('成功更新 wrangler.toml 文件和 app/types/blog.ts');
+// 输出当前的 BLOG_SETTINGS
+console.log('Current BLOG_SETTINGS:', wranglerConfig.vars.BLOG_SETTINGS);
