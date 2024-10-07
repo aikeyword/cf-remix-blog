@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { MetaFunction, LinksFunction } from "@remix-run/cloudflare";
+import type { MetaFunction, LinksFunction, LoaderArgs } from "@remix-run/cloudflare";
 import {
   Links,
   LiveReload,
@@ -14,12 +14,12 @@ import Navbar from "~/components/Navbar";
 import ThemeToggle from "~/components/ThemeToggle";
 import ScrollProgressBar from "~/components/ScrollProgressBar";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
-import { getBlogSettings } from '~/config/blog-config';
+import type { BlogSettings } from "~/types/blog";
 
 import "./tailwind.css";
 import "./styles/themes.css";
 
-export const meta: MetaFunction = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const { settings } = data;
   return [
     { charset: "utf-8" },
@@ -43,8 +43,8 @@ export const links: LinksFunction = () => [
   { rel: "manifest", href: "/site.webmanifest" },
 ];
 
-export async function loader() {
-  const settings = getBlogSettings();
+export async function loader({ context }: LoaderArgs) {
+  const settings: BlogSettings = JSON.parse(context.BLOG_SETTINGS);
   return json({ settings });
 }
 

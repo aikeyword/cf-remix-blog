@@ -1,15 +1,13 @@
 import { json } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
-import { getBlogSettings } from "~/config/blog-config";
 import { getPosts } from "~/models/post.server";
+import type { LoaderArgs } from "@remix-run/cloudflare";
+import type { BlogSettings } from "~/types/blog";
 
 export async function loader({ context }: LoaderArgs) {
-    const settings = getBlogSettings();
+    const settings: BlogSettings = JSON.parse(context.BLOG_SETTINGS);
     const posts = await getPosts();
     const tags = [...new Set(posts.flatMap(post => post.tags))];
-
-    // 获取 BLOG_SETTINGS 环境变量
-    const blogSettingsEnv = context.cloudflare.env.BLOG_SETTINGS;
 
     return json({
         settings,
@@ -17,7 +15,7 @@ export async function loader({ context }: LoaderArgs) {
             totalPosts: posts.length,
             totalTags: tags.length,
         },
-        blogSettingsEnv,
+        blogSettingsEnv: context.BLOG_SETTINGS,
     });
 }
 
