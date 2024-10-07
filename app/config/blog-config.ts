@@ -26,21 +26,14 @@ const defaultSettings: BlogSettings = {
 };
 
 export function getBlogSettings(): BlogSettings {
-    try {
-        return JSON.parse(BLOG_SETTINGS);
-    } catch (error) {
-        console.error('Error parsing BLOG_SETTINGS:', error);
-        return defaultSettings;
-    }
-}
-
-export function getBuildTimeBlogSettings(): BlogSettings {
-    if (process.env.BLOG_SETTINGS) {
+    if (typeof BLOG_SETTINGS !== 'undefined') {
         try {
-            return JSON.parse(process.env.BLOG_SETTINGS);
+            return JSON.parse(BLOG_SETTINGS);
         } catch (error) {
-            console.error('Error parsing build-time BLOG_SETTINGS:', error);
+            console.error('Error parsing BLOG_SETTINGS:', error);
         }
     }
     return defaultSettings;
 }
+
+// 移除 getBuildTimeBlogSettings 函数，因为我们不再需要它
