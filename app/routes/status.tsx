@@ -27,10 +27,12 @@ export async function loader({ context }: LoaderArgs) {
     let settings: BlogSettings;
     try {
         console.log("Raw BLOG_SETTINGS:", context.BLOG_SETTINGS);
-        settings = JSON.parse(context.BLOG_SETTINGS);
+        settings = typeof context.BLOG_SETTINGS === 'string' 
+            ? JSON.parse(context.BLOG_SETTINGS)
+            : (context.BLOG_SETTINGS || defaultBlogSettings);
     } catch (error) {
         console.error("Error parsing BLOG_SETTINGS:", error);
-        settings = defaultBlogSettings; // 使用默认设置
+        settings = defaultBlogSettings;
     }
     
     const posts = await getPosts();

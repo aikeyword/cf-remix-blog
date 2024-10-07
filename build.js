@@ -1,5 +1,7 @@
 import fs from 'fs';
 import toml from '@iarna/toml';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // 默认的 BLOG_SETTINGS
 const defaultBlogSettings = {
@@ -22,6 +24,9 @@ const defaultBlogSettings = {
 };
 
 console.log("BLOG_SETTINGS 环境变量:", process.env.BLOG_SETTINGS);
+
+// 如果环境变量不存在，使用默认值
+process.env.BLOG_SETTINGS = process.env.BLOG_SETTINGS || JSON.stringify(defaultBlogSettings);
 
 // 读取环境变量中的 BLOG_SETTINGS 或使用默认值
 let blogSettings;
