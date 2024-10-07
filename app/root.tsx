@@ -14,7 +14,7 @@ import Navbar from "~/components/Navbar";
 import ThemeToggle from "~/components/ThemeToggle";
 import ScrollProgressBar from "~/components/ScrollProgressBar";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
-import type { BlogSettings } from "~/types/blog";
+import { defaultBlogSettings, type BlogSettings } from "~/types/blog";
 import { getBlogSettings } from "~/utils/getBlogSettings";
 
 import "./tailwind.css";
