@@ -17,7 +17,4 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
-  define: {
-    "process.env.BLOG_SETTINGS": JSON.stringify(process.env.BLOG_SETTINGS || '{}'),
-  },
 });
