@@ -3,12 +3,12 @@ import { useLoaderData } from "@remix-run/react";
 import type { LoaderFunctionArgs } from "@remix-run/cloudflare";
 
 export async function loader({ context }: LoaderFunctionArgs) {
-  const blogSettings = context.env.BLOG_SETTINGS || "环境变量未设置";
+  const blogSettings = process.env.BLOG_SETTINGS || "环境变量未设置"; // 直接从 process.env 获取
   return json({ blogSettings });
 }
 
 export default function GetEnv() {
-  const { blogSettings } = useLoaderData<typeof loader>();
+  const { blogSettings } = useLoaderData();
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
