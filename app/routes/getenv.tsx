@@ -4,7 +4,7 @@ import { LoaderFunction } from 'remix';
 
 export const loader: LoaderFunction = async ({ context }) => {
   // 获取环境变量
-  const message = context.env.SHOW_ME || "环境变量未设置";
+  const message = context.env.BLOG_SETTINGS || "环境变量未设置";
 
   return {
     status: 200,
