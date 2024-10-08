@@ -22,14 +22,27 @@ const defaultBlogSettings = {
 };
 
 // 读取 wrangler.toml 文件
-const wranglerConfig = toml.parse(fs.readFileSync('./wrangler.toml', 'utf-8'));
+let wranglerConfig;
+try {
+    const wranglerContent = fs.readFileSync('./wrangler.toml', 'utf-8');
+    wranglerConfig = toml.parse(wranglerContent);
+} catch (error) {
+    console.error('Error reading or parsing wrangler.toml:', error);
+    process.exit(1);
+}
 
 // 更新 wrangler.toml 文件中的 BLOG_SETTINGS
 wranglerConfig.vars = wranglerConfig.vars || {};
-wranglerConfig.vars.BLOG_SETTINGS = JSON.stringify(defaultBlogSettings).replace(/'/g, "\\'");
+wranglerConfig.vars.BLOG_SETTINGS = JSON.stringify(defaultBlogSettings);
 
 // 将更新后的配置写回 wrangler.toml 文件
-fs.writeFileSync('./wrangler.toml', toml.stringify(wranglerConfig));
+try {
+    const updatedWranglerContent = toml.stringify(wranglerConfig);
+    fs.writeFileSync('./wrangler.toml', updatedWranglerContent);
+} catch (error) {
+    console.error('Error writing wrangler.toml:', error);
+    process.exit(1);
+}
 
 // 更新 app/types/blog.ts 文件
 const typesContent = `export interface BlogSettings {
@@ -51,4 +64,5 @@ export const defaultBlogSettings: BlogSettings = ${JSON.stringify(defaultBlogSet
 
 fs.writeFileSync('./app/types/blog.ts', typesContent);
 
+console.log('======== build.js ======== ')
 console.log('Blog settings have been updated in wrangler.toml and app/types/blog.ts');
