@@ -1,12 +1,13 @@
 import { json } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
-import type { LoaderFunctionArgs } from "@remix-run/cloudflare";
 
-export async function loader({ context }: LoaderFunctionArgs) {
-  const blogSettings = process.env.BLOG_SETTINGS || "环境变量未设置"; // 直接从 process.env 获取
+// loader 函数直接使用 env 参数
+export async function loader({ context }) {
+  const blogSettings = context.env.BLOG_SETTINGS || "环境变量未设置";
   return json({ blogSettings });
 }
 
+// 组件展示环境变量
 export default function GetEnv() {
   const { blogSettings } = useLoaderData();
 
