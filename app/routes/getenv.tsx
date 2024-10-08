@@ -1,5 +1,5 @@
-export const loader = async ({ request }) => {
-  const message = BLOG_SETTINGS || "环境变量未设置";
+export const loader = async ({ context }) => {
+  const message = context.env.BLOG_SETTINGS || "环境变量未设置";
   
   return new Response(`<!DOCTYPE html>
     <html>
