@@ -5,22 +5,19 @@ export interface Env {
 }
 
 export function getBlogSettings(env: Env): BlogSettings {
-    let settings: BlogSettings;
-    let rawSettings = env.BLOG_SETTINGS;
+  const rawSettings = env.BLOG_SETTINGS;
 
-    try {
-        if (typeof rawSettings === 'string') {
-            settings = JSON.parse(rawSettings);
-        } else if (typeof rawSettings === 'object' && rawSettings !== null) {
-            settings = rawSettings;
-        } else {
-            console.warn("BLOG_SETTINGS is not set in environment variables, using default settings");
-            settings = defaultBlogSettings;
-        }
-    } catch (error) {
-        console.error("Error parsing BLOG_SETTINGS:", error);
-        settings = defaultBlogSettings;
-    }
+  if (!rawSettings) {
+    console.warn("BLOG_SETTINGS is not set in environment variables, using default settings");
+    return defaultBlogSettings;
+  }
 
-    return settings;
+  try {
+    return typeof rawSettings === 'string'
+      ? JSON.parse(rawSettings)
+      : (rawSettings as BlogSettings);
+  } catch (error) {
+    console.error("Error parsing BLOG_SETTINGS:", error);
+    return defaultBlogSettings;
+  }
 }
